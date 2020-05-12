@@ -6,6 +6,7 @@ import (
 	"os/signal"
 
 	fu "github.com/danielpaulus/go-simulator-dump/fileutil"
+	"github.com/danielpaulus/go-simulator-dump/proxy"
 	"github.com/docopt/docopt-go"
 )
 
@@ -51,11 +52,12 @@ Options:
 		}
 		log.Printf("Using socket:%s", sock)
 	}
-	fu.MoveSock(sock)
-
+	newSocket, _ := fu.MoveSock(sock)
+	handle := proxy.Launch(sock, newSocket)
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
 	<-c
 	log.Print("CTRL+C detected, shutting down")
+	handle.Stop()
 	fu.MoveBack(sock)
 }
