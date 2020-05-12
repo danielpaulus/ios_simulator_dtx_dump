@@ -21,6 +21,7 @@ func Main() {
 
 Usage:
   sim listen [<sock>]
+  sim ls
 
 Options:
   -v --verbose   Enable Debug Logging.
@@ -28,6 +29,17 @@ Options:
 	arguments, err := docopt.ParseDoc(usage)
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	ls, _ := arguments.Bool("ls")
+	if ls {
+		list, err := fu.ListSockets()
+		if err != nil {
+			log.Printf("Could not get sockets because: %s", err)
+			return
+		}
+		log.Println(list)
+		return
 	}
 
 	sock, _ := arguments.String("<sock>")
