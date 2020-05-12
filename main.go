@@ -24,8 +24,9 @@ Usage:
   sim listen [<sock>]
   sim ls
 
-Options:
-  -v --verbose   Enable Debug Logging.
+  The commands work as following:
+  sim ls  will dump a list of currently active testmanagerd simulator sockets. Copy paste a path out of there to use with listen
+  sim listen  will either take the first available simulator that is running or you can pass it a socket path for a specific sim if you want. once it is running, start a xcuitest in xcode and watch the files with DTX dump being created
 `
 	arguments, err := docopt.ParseDoc(usage)
 	if err != nil {
